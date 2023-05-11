@@ -18,7 +18,7 @@ const LoginScreen = () => {
       setEmail('');
       setPassword('');
     } catch (error) {
-      alert(error.message);
+      alert("wrong email and password");
     }
   };
 
@@ -40,6 +40,9 @@ const LoginScreen = () => {
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+        <Text style={styles.link}>Don't have an account? Register here</Text>
       </TouchableOpacity>
     </View>
   );
@@ -73,6 +76,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  link: {
+    marginTop: 20,
   },
 });
 
