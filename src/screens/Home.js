@@ -23,8 +23,8 @@ const Home = () => {
 
   return (
     <ScrollView>
-     <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('Login')} >
+     <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30}}>
+        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('LoginScreen')} >
           <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={60} color="#4CAF50" /></Text>
           <Text>Back</Text>
         </TouchableOpacity>
@@ -32,10 +32,10 @@ const Home = () => {
           <Text style={styles.bButtonText}><Ionicons name="arrow-forward-circle" size={60} color="#4CAF50" /></Text>
           <Text>Edit Dish</Text>
         </TouchableOpacity>
-        </View>
+      </View>
             {data.map(restaurant => (
               <Pressable style={styles.restaurantContainer}
-            onPress={() => {navigation.navigate('Restaurant',{key: restaurant.id})}}
+            onPress={() => {navigation.navigate('ReadDish',{uid: uid})}}
              >
               <View key={restaurant.id}>
               <View style={{
@@ -74,7 +74,7 @@ export default Home;
 const styles = StyleSheet.create({
     restaurantContainer:{
         width: '100%',
-        marginTop: 50,
+        marginTop: 1,
         paddingHorizontal: 10
       },
       image: {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
       },
       bButton: {
-        marginBottom: 40
+        marginBottom: 40,
       },
       bButtonText: {
         color: 'white',
