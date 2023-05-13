@@ -25,12 +25,10 @@ const Home = () => {
     <ScrollView>
      <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30}}>
         <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('LoginScreen')} >
+          <View style={{alignItems:'center'}}>
           <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={60} color="#4CAF50" /></Text>
-          <Text>Back</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('ReadDish')} >
-          <Text style={styles.bButtonText}><Ionicons name="arrow-forward-circle" size={60} color="#4CAF50" /></Text>
-          <Text>Edit Dish</Text>
+          <Text>Log Out</Text>
+          </View>
         </TouchableOpacity>
       </View>
             {data.map(restaurant => (
@@ -74,7 +72,6 @@ export default Home;
 const styles = StyleSheet.create({
     restaurantContainer:{
         width: '100%',
-        marginTop: 1,
         paddingHorizontal: 10
       },
       image: {
@@ -112,7 +109,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
       },
       bButton: {
-        marginBottom: 40,
+        marginBottom: 10,
       },
       bButtonText: {
         color: 'white',
