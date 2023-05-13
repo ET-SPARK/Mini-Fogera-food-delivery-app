@@ -1,15 +1,36 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { collection,addDoc,serverTimestamp  } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { db } from '../../firebaseConfig';
+import * as Location from 'expo-location';
 
 const Order = () => {
     const [count, setCount]=useState(1)
+    const [location, setLocation] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
     const { selectedData, uid } = useRoute().params;
     const navigation = useNavigation();
+    useEffect(() => {
+      (async () => {
+        
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      })();
+      console.log(location.coords.latitude, location.coords.longitude)
+      setLatitude(location.coords.latitude);
+      setLongitude(location.coords.longitude);
+    }, []);
 
   return (
     <View style={styles.page}>
@@ -36,6 +57,8 @@ const Order = () => {
                   quantity: count,
                   uid: uid,
                   timestamp: serverTimestamp(),
+                  latitude: latitude,
+                  longitude: longitude
                 };
                 addDoc(myCollection, docData)
                   .then(() => {
