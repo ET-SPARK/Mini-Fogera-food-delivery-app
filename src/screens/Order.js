@@ -15,6 +15,7 @@ const Order = () => {
     const [longitude, setLongitude] = useState('');
     const { selectedData, uid } = useRoute().params;
     const navigation = useNavigation();
+
     useEffect(() => {
       (async () => {
         
@@ -26,10 +27,10 @@ const Order = () => {
   
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
+        setLatitude(location.coords.latitude);
+        setLongitude(location.coords.longitude);
       })();
-      console.log(location.coords.latitude, location.coords.longitude)
-      setLatitude(location.coords.latitude);
-      setLongitude(location.coords.longitude);
+      // console.log(location)
     }, []);
 
   return (
