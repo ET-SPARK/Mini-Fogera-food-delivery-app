@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs,onSnapshot } from "firebase/firestore";
 import { db } from '../../firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -12,18 +12,12 @@ const ReadDish = () => {
     const uid = route.params.uid;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'dish'));
+    const unsubscribe = onSnapshot(collection(db, 'dish'), (querySnapshot) => {
       const docs = querySnapshot.docs.map(dish => ({id: dish.id, ...dish.data()}));
       setData(docs);
-    };
-    const intervalId = setInterval(() => {
-        fetchData();
-      }, 1000);
-  
-      return () => clearInterval(intervalId);
-     
-  }, [db]);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleItemPress = item => {
       navigation.navigate('Order', { selectedData: item, uid: uid });

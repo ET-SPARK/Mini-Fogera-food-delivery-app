@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React,{useEffect, useState} from 'react'
-import { collection, query,getDocs,doc, deleteDoc } from 'firebase/firestore';
+import { collection, query,getDocs,doc, deleteDoc,onSnapshot } from 'firebase/firestore';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { db } from '../../firebaseConfig';
@@ -12,20 +12,13 @@ const Basket = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchData = async () => {
-     try {
-      const q = query(collection(db, 'basket'))
-      const querySnapshot = await getDocs(q);
-      setData(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-     } catch (error) {
-      console.log("failed")
-     }
-    };
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [db]);
+    const unsubscribe = onSnapshot(collection(db, 'basket'), (querySnapshot) => {
+      const docs = querySnapshot.docs.map(dish => ({id: dish.id, ...dish.data()}));
+      setData(docs);
+    });
+    return () => unsubscribe();
+  }, []);
+  
 
   return (
     <View style={styles.page}>
