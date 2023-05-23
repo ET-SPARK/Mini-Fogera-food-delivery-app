@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { collection, getDocs,onSnapshot,deleteDoc,doc,where,query } from "firebase/firestore";
+import { collection, getDocs,onSnapshot,deleteDoc,doc,where,query,setDoc } from "firebase/firestore";
 import { db } from '../../firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -37,28 +37,43 @@ const Delivery = () => {
         return () => unsubscribe();
       }, []);
       
-      const handleDelete = async item => {
-        const myDoc = doc(db, 'acceptOrder', item.id)
-        deleteDoc(myDoc)
-        .then(() => {
-            alert("Delivery canceled successfully!")
-        })
-        .catch((error) => {
-            alert(error.message)
-        })
-
-        const collectionRef = collection(db, 'deliveryStatus');
-        const q = query(collectionRef, where('orderId', '==', item.orderId));
-        const querySnapshot = await getDocs(q);
-        
-        querySnapshot.docs.forEach(async (doc) => {
-          try {
-            await deleteDoc(doc.ref);
-          } catch (error) {
-            console.error('Error deleting document: ', error);
-          }
-        });
-      }
+      const handleDelete = async (item) => {
+        try {
+          const collectionAdd = collection(db, 'cancelOrder');
+          const addDoc = doc(collectionAdd, item.id);
+      
+          await setDoc(addDoc, {
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            deliveryId: item.deliveryId,
+            did: item.did,
+            orderId: item.orderId,
+            uid: uid,
+          });
+      
+          const myDoc = doc(db, 'acceptOrder', item.id);
+          await deleteDoc(myDoc);
+          alert("Delivery canceled successfully!");
+      
+          const collectionRef = collection(db, 'deliveryStatus');
+          const q = query(collectionRef, where('orderId', '==', item.orderId));
+          const querySnapshot = await getDocs(q);
+      
+          querySnapshot.docs.forEach(async (doc) => {
+            try {
+              await deleteDoc(doc.ref);
+            } catch (error) {
+              console.error('Error deleting document: ', error);
+            }
+          });
+      
+          alert("Delivery added to canceled order successfully!");
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+      
 
 const renderItem = ({ item }) => {
     if (item.uid == uid) {
