@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 const Home = () => {
   const route = useRoute();
@@ -23,13 +24,23 @@ const Home = () => {
 
   return (
     <ScrollView>
-     <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30}}>
+     <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30, marginHorizontal: 10}}>
+        <View>
         <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('LoginScreen')} >
           <View style={{alignItems:'center'}}>
           <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={60} color="#4CAF50" /></Text>
           <Text>Log Out</Text>
           </View>
         </TouchableOpacity>
+        </View>
+        <View>
+        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('Delivery',{uid: uid})} >
+          <View style={{alignItems:'center'}}>
+          <Text style={styles.bButtonText}>  <AntDesign name="shoppingcart" size={60} color="#4CAF50" /></Text>
+          <Text>Delivery Orders</Text>
+          </View>
+        </TouchableOpacity>
+        </View>
       </View>
             {data.map(restaurant => (
               <Pressable style={styles.restaurantContainer}
