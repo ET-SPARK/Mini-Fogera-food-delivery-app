@@ -9,6 +9,7 @@ import ReadDish from './screens/ReadDish';
 import Order from './screens/Order';
 import Basket from './screens/Basket';
 import Delivery from './screens/Delivery';
+import Payment from './screens/Payment';
 
 
 const Stack = createNativeStackNavigator();
@@ -23,6 +24,7 @@ const AppNavigation = () => {
       <Stack.Screen name="Order" component={Order}  />
       <Stack.Screen name="Basket" component={Basket}  />
       <Stack.Screen name="Delivery" component={Delivery}  options={{headerShown: false}} />
+      <Stack.Screen name="Payment" component={Payment}   />
     </Stack.Navigator>
     </NavigationContainer>
   )
