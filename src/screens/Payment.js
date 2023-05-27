@@ -1,13 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import WebView from 'react-native-webview';
-import axios from 'axios';
 
 const Payment = () => {
   const {totalPrice } = useRoute().params;
+  const {uid } = useRoute().params;
+  const {email } = useRoute().params;
   const navigation = useNavigation();
   const TEXT_REF = "tx-myecommerce12345-" + Date.now()
+  
   const htmlContent = `
     <html>
       <head>
@@ -34,11 +36,11 @@ const Payment = () => {
       <input type="hidden" name="tx_ref" value="${TEXT_REF}" />
       <input type="hidden" name="amount" value=${totalPrice} />
       <input type="hidden" name="currency" value="ETB" />
-      <input type="hidden" name="email" value="samuelwoyesso2016@gmail.com" />
-      <input type="hidden" name="first_name" value="Israel" />
-      <input type="hidden" name="last_name" value="Goytom" />
+      <input type="hidden" name="email" value="${email}" />
+      <input type="hidden" name="first_name" value="Your first name" />
+      <input type="hidden" name="last_name" value="Your last name" />
       <input type="hidden" name="title" value="Let us do this" />
-      <input type="hidden" name="description" value="Paying with Confidence with cha" />
+      <input type="hidden" name="description" value="Paying with Confidence with chapa" />
       <input type="hidden" name="logo" value="https://chapa.link/asset/images/chapa_swirl.svg" />
       <input type="hidden" name="meta[title]" value="test" />
       <button type="submit">Submit</button>
@@ -61,6 +63,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        marginVertical: 20,
+        marginHorizontal:20,
     },
     webView:{
         marginVertical: 50,

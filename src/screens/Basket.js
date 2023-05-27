@@ -1,10 +1,9 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React,{useEffect, useState} from 'react'
-import { collection, query,getDocs,doc, deleteDoc,onSnapshot } from 'firebase/firestore';
+import { collection, query,getDocs,doc, deleteDoc,onSnapshot,where } from 'firebase/firestore';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { db } from '../../firebaseConfig';
-import { Ionicons } from '@expo/vector-icons';
 
 const Basket = () => {
   const [data, setData] = useState([]);
@@ -64,11 +63,21 @@ const Basket = () => {
       </ScrollView>
       <View style={styles.separator} />
       <View style={styles.button}>
-        <TouchableOpacity style={styles.button} onPress={()=> {
-          navigation.navigate('Payment', {totalPrice:totalPrice});
-        }}>
-          <Text style={styles.buttonText}>Order Now</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={async () => {
+        const usersRef = collection(db, 'users');
+        try {
+          const querySnapshot = await getDocs(query(usersRef, where('user', '==', uid)));
+          querySnapshot.forEach((doc) => {
+            const email = doc.data().email;
+            navigation.navigate('Payment', { totalPrice: totalPrice, email: email, uid: uid });
+            // Do something with the document
+          });
+        } catch (error) {
+          console.error('Error fetching user document: ', error);
+        }
+      }}>
+        <Text style={styles.buttonText}>Order Now</Text>
+      </TouchableOpacity>
       </View>
     </View>
   ) 
