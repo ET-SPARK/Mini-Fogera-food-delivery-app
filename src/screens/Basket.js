@@ -19,8 +19,6 @@ const Basket = () => {
     });
     return () => unsubscribe();
   }, []);
-  
-
   return (
     <View style={styles.page}>
      <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30}}>
@@ -67,7 +65,7 @@ const Basket = () => {
       <View style={styles.separator} />
       <View style={styles.button}>
         <TouchableOpacity style={styles.button} onPress={()=> {
-          navigation.navigate('Payment', { selectedData: totalPrice, uid: uid });
+          navigation.navigate('Payment', {totalPrice:totalPrice});
         }}>
           <Text style={styles.buttonText}>Order Now</Text>
         </TouchableOpacity>

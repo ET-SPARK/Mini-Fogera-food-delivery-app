@@ -28,17 +28,16 @@ app.get('/', (req, res) => {
 
 // initial payment endpoint
 app.post("/api/pay", async (req, res) => {
-    const { selectedData } = req.body;
          // chapa redirect you to this url when payment is successful
-        const CALLBACK_URL = "http://192.168.137.1:4400/api/verify-payment/"
-        const RETURN_URL = "http://192.168.137.1:4400/api/payment-success/"
+        const CALLBACK_URL = "http://192.168.137.132:4400/api/verify-payment/"
+        const RETURN_URL = "http://192.168.137.132:4400/api/payment-success/"
 
         // a unique reference given to every transaction
         const TEXT_REF = "tx-myecommerce12345-" + Date.now()
 
         // form data
         const data = {
-            amount: selectedData, 
+            amount: '100', 
             currency: 'ETB',
             email: 'ato@ekele.com',
             first_name: 'Ato',
