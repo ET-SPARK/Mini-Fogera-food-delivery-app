@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   },
   link: {
     marginTop: 20,
+    color:  '#4CAF50',
   },
 });
 

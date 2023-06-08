@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { auth, database, db } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc,getDocs } from 'firebase/firestore';
 
 
 const RegisterScreen = ({navigation}) => {
@@ -11,7 +11,21 @@ const RegisterScreen = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
+    if (email === '' || phoneNumber === '' || username === '' || password === '') {
+      alert('Please fill in all fields');
+      return;
+    } 
+    if (phoneNumber.length !== 10) {
+      alert('Please enter valid Phone number');
+      return;
+    }
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    const existingDriver = querySnapshot.docs.find(doc => doc.data().email === email);
+    if (existingDriver) {
+      alert('Email already exists');
+      return;
+    }
         try {
             createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -25,7 +39,7 @@ const RegisterScreen = ({navigation}) => {
                         phoneNumber,
                         user
                     })
-            navigation.navigate('LoginScreen');
+            navigation.navigate('LoginScreen');                 
             alert("successfully registerd");
             setEmail('');
             setPassword('');
@@ -106,6 +120,7 @@ const styles = StyleSheet.create({
     },
     link: {
         marginTop: 20,
+        color:  '#4CAF50',
     },
 });
 
