@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { auth } from '../../firebaseConfig';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged,sendPasswordResetEmail  } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
@@ -10,6 +10,10 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
+    if (email === '' || password === '') {
+      alert('Please fill in all fields');
+      return;
+    }
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -21,10 +25,22 @@ const LoginScreen = () => {
       alert("wrong email and password");
     }
   };
+  const handleForgotPassword = async () => {
+    if (email === '') {
+      alert('Please enter your email');
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert('Password reset email sent. Please check your inbox.');
+    } catch (error) {
+      alert('Failed to send password reset email. Please try again.');
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+      <Text style={styles.heading}>Engocha Food Delivery</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -38,6 +54,9 @@ const LoginScreen = () => {
         onChangeText={(text) => setPassword(text)}
         secureTextEntry
       />
+      <TouchableOpacity onPress={handleForgotPassword}>
+      <Text style={styles.link}>Forgot Password?</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -58,6 +77,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     marginBottom: 30,
+    color:  '#4CAF50',
   },
   input: {
     width: '80%',
@@ -68,7 +88,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#4CAF50',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 50,
     borderRadius: 5,
     marginTop: 20,
   },

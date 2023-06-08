@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 24,
         marginBottom: 30,
+        color:  '#4CAF50',
     },
     input: {
         width: '80%',
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#4CAF50',
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 50,
         borderRadius: 5,
         marginTop: 20,
     },
