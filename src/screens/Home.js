@@ -10,7 +10,10 @@ import { AntDesign } from '@expo/vector-icons';
 const Home = () => {
   const route = useRoute();
   const navigation = useNavigation()
-  const uid = route.params.uid;
+  // const uid = route.params.uid;
+  // const uEmail = route.params.uEmail
+  const {uid } = useRoute().params;
+  const {uEmail } = useRoute().params;
 
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -44,7 +47,7 @@ const Home = () => {
       </View>
             {data.map(restaurant => (
               <Pressable style={styles.restaurantContainer}
-            onPress={() => {navigation.navigate('ReadDish',{uid: uid})}}
+            onPress={() => {navigation.navigate('ReadDish',{uid: uid, uEmail: uEmail })}}
              >
               <View key={restaurant.id}>
               <View style={{

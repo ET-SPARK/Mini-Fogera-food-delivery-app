@@ -17,7 +17,7 @@ const LoginScreen = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      navigation.navigate('Home', { uid: user.uid }); // Pass the UID to the Home screen
+      navigation.navigate('Home', { uid: user.uid , uEmail:user.email }); // Pass the UID to the Home screen
       alert('Welcome');
       setEmail('');
       setPassword('');

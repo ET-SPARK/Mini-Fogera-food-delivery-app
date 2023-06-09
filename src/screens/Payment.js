@@ -5,8 +5,7 @@ import WebView from 'react-native-webview';
 
 const Payment = () => {
   const {totalPrice } = useRoute().params;
-  const {uid } = useRoute().params;
-  const {email } = useRoute().params;
+  const {uEmail } = useRoute().params;
   const navigation = useNavigation();
   const TEXT_REF = "tx-myecommerce12345-" + Date.now()
   
@@ -32,11 +31,11 @@ const Payment = () => {
       </head>
       <body>
       <form method="POST" action="https://api.chapa.co/v1/hosted/pay" class="form-container">
-      <input type="hidden" name="public_key" value="CHAPUBK_TEST-schbbBz7ZDfmBr3rbPbyFlCbE9gEcL6r" />
+      <input type="hidden" name="public_key" value="CHAPUBK_TEST-cajrmdH217grmVDQVWVH8kkDAL8v6ArM" />
       <input type="hidden" name="tx_ref" value="${TEXT_REF}" />
       <input type="hidden" name="amount" value=${totalPrice} />
       <input type="hidden" name="currency" value="ETB" />
-      <input type="hidden" name="email" value="${email}" />
+      <input type="hidden" name="email" value="${uEmail}" />
       <input type="hidden" name="first_name" value="Your first name" />
       <input type="hidden" name="last_name" value="Your last name" />
       <input type="hidden" name="title" value="Let us do this" />

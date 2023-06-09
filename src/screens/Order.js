@@ -13,7 +13,7 @@ const Order = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
-    const { selectedData, uid } = useRoute().params;
+    const { selectedData, uid, uEmail } = useRoute().params;
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Order = () => {
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
       })();
-      // console.log(location)
+      // console.log(uEmail)
     }, []);
 
   return (
@@ -50,7 +50,7 @@ const Order = () => {
             <TouchableOpacity style={styles.button}
              onPress={() => {
                 // addDishToBasket(selectedData, count)
-                navigation.navigate("Basket" , {uid: uid});
+                navigation.navigate("Basket" , {uid: uid , uEmail: uEmail });
                 const myCollection = collection(db, 'basket');
                 const docData = {
                   name: selectedData.name,

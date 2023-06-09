@@ -9,7 +9,8 @@ const ReadDish = () => {
     const [data, setData] = useState([]);
     const navigation = useNavigation();
     const route = useRoute();
-    const uid = route.params.uid;
+    const {uid } = useRoute().params;
+    const {uEmail } = useRoute().params;
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'dish'), (querySnapshot) => {
@@ -20,7 +21,7 @@ const ReadDish = () => {
   }, []);
 
   const handleItemPress = item => {
-      navigation.navigate('Order', { selectedData: item, uid: uid });
+      navigation.navigate('Order', { selectedData: item, uid: uid, uEmail: uEmail });
     };
   
     const renderItem = ({ item }) => (

@@ -7,7 +7,7 @@ import { db } from '../../firebaseConfig';
 
 const Basket = () => {
   const [data, setData] = useState([]);
-  const {uid } = useRoute().params;
+  const {uid ,uEmail } = useRoute().params;
   const navigation = useNavigation();
   let totalPrice = 0;
 
@@ -15,6 +15,7 @@ const Basket = () => {
     const unsubscribe = onSnapshot(collection(db, 'basket'), (querySnapshot) => {
       const docs = querySnapshot.docs.map(dish => ({id: dish.id, ...dish.data()}));
       setData(docs);
+      // console.log(uEmail)
     });
     return () => unsubscribe();
   }, []);
@@ -59,22 +60,11 @@ const Basket = () => {
 <View style={styles.totalPriceContainer}>
   <Text style={styles.totalPriceText}>TOTAL PRICE: {totalPrice} birr</Text>
 </View>
-
       </ScrollView>
       <View style={styles.separator} />
-      <View style={styles.button}>
-      <TouchableOpacity style={styles.button} onPress={async () => {
-        const usersRef = collection(db, 'users');
-        try {
-          const querySnapshot = await getDocs(query(usersRef, where('user', '==', uid)));
-          querySnapshot.forEach((doc) => {
-            const email = doc.data().email;
-            navigation.navigate('Payment', { totalPrice: totalPrice, email: email, uid: uid });
-            // Do something with the document
-          });
-        } catch (error) {
-          console.error('Error fetching user document: ', error);
-        }
+      <View>
+      <TouchableOpacity style={styles.button} onPress={() => {
+            navigation.navigate('Payment', { totalPrice: totalPrice, uEmail: uEmail, uid: uid });
       }}>
         <Text style={styles.buttonText}>Order Now</Text>
       </TouchableOpacity>
