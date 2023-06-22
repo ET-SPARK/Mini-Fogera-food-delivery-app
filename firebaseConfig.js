@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import { getAuth} from "firebase/auth";
 import { getFirestore} from "firebase/firestore";
 import { getDatabase } from 'firebase/database';
 
@@ -13,7 +13,6 @@ const firebaseConfig = {
     appId: "1:287080897584:web:7609db9133ceec5b1be1f5",
     measurementId: "G-TRLZBT2HCP"
   };
-
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

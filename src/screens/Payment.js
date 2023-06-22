@@ -1,72 +1,70 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useState } from 'react';
+import { View, Button, Text, Linking } from 'react-native';
+import Chapa from 'chapa';
+import { getRandomBytes } from 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import WebView from 'react-native-webview';
 
 const Payment = () => {
+  const [status, setStatus] = useState('');
+  const [checkoutUrl, setCheckoutUrl] = useState('');
   const {totalPrice } = useRoute().params;
   const {uEmail } = useRoute().params;
   const navigation = useNavigation();
-  const TEXT_REF = "tx-myecommerce12345-" + Date.now()
-  
-  const htmlContent = `
-    <html>
-      <head>
-        <style>
-        .form-container {
-          padding: 20px;
-          background-color: #f2f2f2;
-          border-radius: 5px;
-      }
-      /* Button styles */
-      .form-container button {
-          padding: 10px 20px;
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-      }
-        </style>
-      </head>
-      <body>
-      <form method="POST" action="https://api.chapa.co/v1/hosted/pay" class="form-container">
-      <input type="hidden" name="public_key" value="CHAPUBK_TEST-cajrmdH217grmVDQVWVH8kkDAL8v6ArM" />
-      <input type="hidden" name="tx_ref" value="${TEXT_REF}" />
-      <input type="hidden" name="amount" value=${totalPrice} />
-      <input type="hidden" name="currency" value="ETB" />
-      <input type="hidden" name="email" value="${uEmail}" />
-      <input type="hidden" name="first_name" value="Your first name" />
-      <input type="hidden" name="last_name" value="Your last name" />
-      <input type="hidden" name="title" value="Let us do this" />
-      <input type="hidden" name="description" value="Paying with Confidence with chapa" />
-      <input type="hidden" name="logo" value="https://chapa.link/asset/images/chapa_swirl.svg" />
-      <input type="hidden" name="meta[title]" value="test" />
-      <button type="submit">Submit</button>
-        </form>
-      </body>
-    </html>
-  `;
-  return (
-    <View style={styles.container}>
-      <WebView
-       source={{ html: htmlContent }}
-      />
-    </View>
-  )
-}
 
-export default Payment
+  const myChapa = new Chapa('CHASECK_TEST-MM6Wli0UpCQugTEyXffE3nqL01HRzwyQ');
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        marginVertical: 20,
-        marginHorizontal:20,
+  const customerInfo = {
+    amount: totalPrice,
+    currency: 'ETB',
+    email: uEmail,
+    first_name: 'your first name',
+    last_name: 'your last name',
+    callback_url: 'https://chapa.co',
+    customization: {
+      title: 'I love e-commerce',
+      description: 'It is time to pay',
     },
-    webView:{
-        marginVertical: 50,
-        marginHorizontal:20
+  };
+
+  const initializePayment = async () => {
+    try {
+      const TEXT_REF = 'tx-myecommerce12345-' + uuidv4({ random: getRandomBytes });
+      customerInfo.tx_ref = TEXT_REF;
+
+      const response = await myChapa.initialize(customerInfo, { autoRef: true });
+      setStatus(response.status);
+      setCheckoutUrl(response.data.checkout_url);
+      // Save the reference or handle the response as needed
+    } catch (error) {
+      console.log(error);
     }
-})
+  };
+
+  const verifyPayment = async (txnReference) => {
+    try {
+      const response = await myChapa.verify(txnReference);
+      setStatus(response.status);
+      // Handle the response as needed
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const openCheckoutUrl = () => {
+    if (checkoutUrl) {
+      Linking.openURL(checkoutUrl);
+    }
+  };
+
+  return (
+    <View>
+      <Button title="Initialize Payment" onPress={initializePayment} />
+      <Button title="Verify Payment" onPress={() => verifyPayment('txn-reference')} />
+      <Text>Status: {status}</Text>
+      <Button title="Open Checkout" onPress={openCheckoutUrl} disabled={!checkoutUrl} />
+    </View>
+  );
+};
+
+export default Payment;
