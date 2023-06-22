@@ -8,6 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 const Payment = () => {
   const [status, setStatus] = useState('');
   const [checkoutUrl, setCheckoutUrl] = useState('');
+  const [transactionRef, setTransactionRef] = useState('');
   const {totalPrice } = useRoute().params;
   const {uEmail } = useRoute().params;
   const navigation = useNavigation();
@@ -41,13 +42,17 @@ const Payment = () => {
     }
   };
 
-  const verifyPayment = async (txnReference) => {
-    try {
-      const response = await myChapa.verify(txnReference);
-      setStatus(response.status);
-      // Handle the response as needed
-    } catch (error) {
-      console.log(error);
+  const verifyPayment = async () => {
+    if (transactionRef) {
+      try {
+        const response = await myChapa.verify(transactionRef);
+        setStatus(response.status);
+        // Handle the response as needed
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log('Transaction reference is required!');
     }
   };
 
@@ -60,7 +65,6 @@ const Payment = () => {
   return (
     <View>
       <Button title="Initialize Payment" onPress={initializePayment} />
-      <Button title="Verify Payment" onPress={() => verifyPayment('txn-reference')} />
       <Text>Status: {status}</Text>
       <Button title="Open Checkout" onPress={openCheckoutUrl} disabled={!checkoutUrl} />
     </View>
