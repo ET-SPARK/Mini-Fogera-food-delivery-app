@@ -34,7 +34,6 @@ const Payment = () => {
       const response = await myChapa.initialize(customerInfo, { autoRef: true });
       setStatus(response.status);
       setCheckoutUrl(response.data.checkout_url);
-      // Save the reference or handle the response as needed
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +43,7 @@ const Payment = () => {
       Linking.openURL(checkoutUrl);
     }
     else {
-      alert("please initialize your payment!")
+      alert("opps🤭 please initialize your payment!")
     }
   };
 
@@ -62,7 +61,6 @@ const Payment = () => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}
        onPress={openCheckoutUrl}
-      //  disabled={!checkoutUrl}
       >
         <Text style={styles.buttonText}>Open Checkout</Text>
       </TouchableOpacity>

@@ -112,17 +112,17 @@ const styles = StyleSheet.create({
         marginHorizontal:40
     },
     buttonText:{
-        color:'white',
-        fontWeight:'600',
-        fontSize:18,
-        letterSpacing: 2
+      color:'white',
+      fontWeight:'600',
+      fontSize:18,
+      letterSpacing: 2
     },
     quantityContainer: {
-        backgroundColor: 'lightgray',
-        paddingHorizontal:5,
-        marginRight:5,
-        paddingVertical:2,
-        borderRadius: 3
+      backgroundColor: 'lightgray',
+      paddingHorizontal:5,
+      marginRight:5,
+      paddingVertical:2,
+      borderRadius: 3
     },
     bButton: {
         marginBottom: 40
