@@ -29,8 +29,9 @@ const Order = () => {
         setLocation(location);
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
+        
       })();
-      // console.log(uEmail)
+      // console.log(Location.getCurrentPositionAsync({}))
     }, []);
 
   return (

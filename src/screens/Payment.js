@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Text, Linking } from 'react-native';
+import { View, Button, Text, Linking, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Chapa from 'chapa';
 import { getRandomBytes } from 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,10 +8,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 const Payment = () => {
   const [status, setStatus] = useState('');
   const [checkoutUrl, setCheckoutUrl] = useState('');
-  const [transactionRef, setTransactionRef] = useState('');
   const {totalPrice } = useRoute().params;
   const {uEmail } = useRoute().params;
-  const navigation = useNavigation();
 
   const myChapa = new Chapa('CHASECK_TEST-MM6Wli0UpCQugTEyXffE3nqL01HRzwyQ');
 
@@ -41,34 +39,62 @@ const Payment = () => {
       console.log(error);
     }
   };
-
-  const verifyPayment = async () => {
-    if (transactionRef) {
-      try {
-        const response = await myChapa.verify(transactionRef);
-        setStatus(response.status);
-        // Handle the response as needed
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log('Transaction reference is required!');
-    }
-  };
-
   const openCheckoutUrl = () => {
     if (checkoutUrl) {
       Linking.openURL(checkoutUrl);
+    }
+    else {
+      alert("please initialize your payment!")
     }
   };
 
   return (
     <View>
-      <Button title="Initialize Payment" onPress={initializePayment} />
-      <Text>Status: {status}</Text>
-      <Button title="Open Checkout" onPress={openCheckoutUrl} disabled={!checkoutUrl} />
+      <View style={styles.pamInfo}>
+      <Text style={styles.pamTxt}>Pay Your bill with Chapa</Text>
+      <Text>Amount: <Text style={styles.pamTxt}>{totalPrice} birr</Text></Text>
+      <Text>Payment status: <Text style={styles.pamTxt}>{status}</Text></Text>
+      </View>
+      <TouchableOpacity style={styles.button}
+       onPress={initializePayment}
+      >
+        <Text style={styles.buttonText}>Initialize Payment</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}
+       onPress={openCheckoutUrl}
+      //  disabled={!checkoutUrl}
+      >
+        <Text style={styles.buttonText}>Open Checkout</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 export default Payment;
+
+const styles = StyleSheet.create({
+  button:{
+    backgroundColor:'#4CAF50',
+    marginTop:20,
+    padding:10,
+    alignItems:'center',
+    marginHorizontal:40,
+    borderRadius: 10
+},
+  buttonText:{
+      color:'white',
+      fontWeight:'600',
+      fontSize:18,
+      letterSpacing: 2
+  },
+  pamInfo: {
+      paddingVertical: 50,
+      paddingHorizontal: 20
+  },
+  pamTxt: {
+      color:'#4CAF50',
+      fontWeight:'600',
+      fontSize:18,
+      letterSpacing: 2
+  }
+})
