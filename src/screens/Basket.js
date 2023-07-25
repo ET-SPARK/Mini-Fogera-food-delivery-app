@@ -42,7 +42,7 @@ const Basket = () => {
                   const myDoc = doc(db, 'basket', basket.id)
                   deleteDoc(myDoc)
                   .then(() => {
-                    alert("Deleted Successfully!")
+                    alert("Item deleted Successfully!")
                   })
                   .catch((error) => {
                     alert(error.message)

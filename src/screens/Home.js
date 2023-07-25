@@ -62,7 +62,7 @@ const Home = () => {
               <Image 
                 source={{uri: restaurant.image}}
                 style={styles.image}
-            />
+               />
               <View style={styles.row}>
                   <View>
                       <Text style={styles.subtitle2}><Text  style={{color:  '#4CAF50'}}>
