@@ -17,22 +17,22 @@ const Order = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-      (async () => {
-        
-        let { status } = await Location.requestForegroundPermissionsAsync();
+      (() => {
+        let { status } = Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
           return;
         }
   
-        let location = await Location.getCurrentPositionAsync({});
+        let location = Location.getCurrentPositionAsync({});
         setLocation(location);
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
-        
       })();
-      // console.log(Location.getCurrentPositionAsync({}))
+      console.log( Location.getCurrentPositionAsync({}))
     }, []);
+
+  
 
   return (
     <View style={styles.page}>
