@@ -14,7 +14,6 @@ const Home = () => {
   // const uEmail = route.params.uEmail
   const {uid } = useRoute().params;
   const {uEmail } = useRoute().params;
-
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +23,6 @@ const Home = () => {
     };
     fetchData();
   }, []);
-
   return (
     <ScrollView>
      <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30, marginHorizontal: 10}}>
@@ -47,7 +45,7 @@ const Home = () => {
       </View>
             {data.map(restaurant => (
               <Pressable style={styles.restaurantContainer}
-            onPress={() => {navigation.navigate('ReadDish',{uid: uid, uEmail: uEmail })}}
+               onPress={() => {navigation.navigate('ReadDish',{uid: uid, uEmail: uEmail })}}
              >
               <View key={restaurant.id}>
               <View style={{
