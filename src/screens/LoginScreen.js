@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword, onAuthStateChanged,sendPasswordResetEmail  } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -40,6 +40,7 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor='#4CAF50' />
       <Text style={styles.heading}>Engocha Food Delivery</Text>
       <TextInput
         style={styles.input}

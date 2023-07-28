@@ -31,7 +31,6 @@ const Order = () => {
       })();
       console.log( Location.getCurrentPositionAsync({}))
     }, []);
-
   
 
   return (
