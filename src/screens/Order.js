@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
     button:{
         backgroundColor:'#4CAF50',
         marginTop:'auto',
-        padding:20,
+        padding:15,
         alignItems:'center',
-        marginTop: 185
+        marginTop: 200
     },
     buttonText:{
         color:'white',

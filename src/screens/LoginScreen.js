@@ -3,10 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar } from '
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword, onAuthStateChanged,sendPasswordResetEmail  } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { shadow } from 'react-native-paper';
+import { Octicons } from '@expo/vector-icons';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setPasswordVisible] = React.useState(false);
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -37,24 +40,34 @@ const LoginScreen = () => {
       alert('Failed to send password reset email. Please try again.');
     }
   }
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!isPasswordVisible);
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='#4CAF50' />
-      <Text style={styles.heading}>Engocha Food Delivery</Text>
+      <Text style={styles.heading}>ENGOCHA FOOD DELIVERY</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
+      <View style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between'}}>
       <TextInput
-        style={styles.input}
+        style={styles.input2}
         placeholder="Password"
         value={password}
         onChangeText={(text) => setPassword(text)}
-        secureTextEntry
+        secureTextEntry={!isPasswordVisible}
       />
+       <TouchableOpacity onPress={togglePasswordVisibility}>
+        <Text style={styles.toggleVisibilityLink}>
+          {isPasswordVisible ? <Octicons name="eye-closed" size={24} color='#4CAF50' /> : <Octicons name="eye" size={24} color='#4CAF50' />}
+        </Text>
+      </TouchableOpacity>
+      </View>
       <TouchableOpacity onPress={handleForgotPassword}>
       <Text style={styles.link}>Forgot Password?</Text>
       </TouchableOpacity>
@@ -77,14 +90,27 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 30,
-    color:  '#4CAF50',
+    color: '#4CAF50',
   },
   input: {
     width: '80%',
     padding: 10,
     marginBottom: 10,
     backgroundColor: '#fff',
+    borderRadius: 55,
+    borderColor: '#4CAF50', // Added green border color
+    borderWidth: 2,
+  },
+  input2: {
+    width: '70%',
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    borderRadius: 55,
+    borderColor: '#4CAF50', // Added green border color
+    borderWidth: 2,
   },
   button: {
     backgroundColor: '#4CAF50',
@@ -101,6 +127,11 @@ const styles = StyleSheet.create({
   link: {
     marginTop: 20,
     color:  '#4CAF50',
+  },
+  toggleVisibilityLink: {
+    marginTop: 10,
+    color: '#4CAF50',
+    marginLeft: 10
   },
 });
 

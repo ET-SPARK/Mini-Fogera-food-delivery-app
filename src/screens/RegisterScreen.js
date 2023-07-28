@@ -8,6 +8,7 @@ import { getFirestore, collection, addDoc,getDocs } from 'firebase/firestore';
 const RegisterScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [cpassword, setcPassword] = useState('');
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -16,6 +17,9 @@ const RegisterScreen = ({navigation}) => {
       alert('Please fill in all fields');
       return;
     } 
+    if (password != cpassword) {
+        alert("Confirm password doesn't match with password")
+    }
     if (phoneNumber.length !== 10) {
       alert('Please enter valid Phone number');
       return;
@@ -69,6 +73,13 @@ const RegisterScreen = ({navigation}) => {
             />
             <TextInput
                 style={styles.input}
+                placeholder="Confirm Password"
+                value={cpassword}
+                onChangeText={(text) => setcPassword(text)}
+                secureTextEntry
+            />
+            <TextInput
+                style={styles.input}
                 placeholder="Username"
                 value={username}
                 onChangeText={(text) => setUsername(text)}
@@ -78,6 +89,8 @@ const RegisterScreen = ({navigation}) => {
                 placeholder="Phone Number"
                 value={phoneNumber}
                 onChangeText={(text) => setPhoneNumber(text)}
+                maxLength={10}
+                keyboardType="numeric" 
             />
             <TouchableOpacity style={styles.button} onPress={handleSignUp}>
                 <Text style={styles.buttonText}>Sign Up</Text>
