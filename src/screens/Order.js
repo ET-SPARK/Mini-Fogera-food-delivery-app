@@ -29,7 +29,7 @@ const Order = () => {
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
       })();
-      console.log( Location.getCurrentPositionAsync({}))
+      // console.log( Location.getCurrentPositionAsync({}))
     }, []);
   
 

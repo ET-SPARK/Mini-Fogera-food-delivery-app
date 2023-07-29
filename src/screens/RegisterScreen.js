@@ -18,7 +18,7 @@ const RegisterScreen = ({navigation}) => {
       return;
     } 
     if (password != cpassword) {
-        alert("Confirm password doesn't match with password")
+        alert("Confirm password doesn't match with the above password")
     }
     if (phoneNumber.length !== 10) {
       alert('Please enter valid Phone number');

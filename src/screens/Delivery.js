@@ -11,6 +11,7 @@ const Delivery = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const uid = route.params.uid;
+    const { uEmail } = useRoute().params;
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'acceptOrder'), (querySnapshot) => {
@@ -99,7 +100,7 @@ const renderItem = ({ item }) => {
   };
   return (
     <ScrollView>
-        <TouchableOpacity style={styles.bButton1} onPress={() => navigation.navigate('Home', {uid: uid})} >
+        <TouchableOpacity style={styles.bButton1} onPress={() => navigation.navigate('Home', {uid: uid, uEmail:uEmail})} >
          <View style={{alignItems: 'center'}}>
          <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={60} color="#4CAF50" /></Text>
           <Text>Back</Text>

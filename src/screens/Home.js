@@ -25,7 +25,7 @@ const Home = () => {
   }, []);
   return (
     <ScrollView>
-     <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 30, marginHorizontal: 10}}>
+     <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 10, marginHorizontal: 10}}>
         <View>
         <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('LoginScreen')} >
           <View style={{alignItems:'center'}}>
@@ -35,7 +35,7 @@ const Home = () => {
         </TouchableOpacity>
         </View>
         <View>
-        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('Delivery',{uid: uid})} >
+        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('Delivery',{uid: uid, uEmail:uEmail})} >
           <View style={{alignItems:'center'}}>
           <Text style={styles.bButtonText}>  <AntDesign name="shoppingcart" size={60} color="#4CAF50" /></Text>
           <Text>Delivery Orders</Text>

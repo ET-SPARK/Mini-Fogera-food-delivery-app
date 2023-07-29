@@ -64,7 +64,7 @@ const LoginScreen = () => {
       />
        <TouchableOpacity onPress={togglePasswordVisibility}>
         <Text style={styles.toggleVisibilityLink}>
-          {isPasswordVisible ? <Octicons name="eye-closed" size={24} color='#4CAF50' /> : <Octicons name="eye" size={24} color='#4CAF50' />}
+          {isPasswordVisible ? <Octicons name="eye" size={24} color='#4CAF50' /> : <Octicons name="eye-closed" size={24} color='#4CAF50' />}
         </Text>
       </TouchableOpacity>
       </View>
