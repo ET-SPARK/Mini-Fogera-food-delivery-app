@@ -29,7 +29,7 @@ const Home = () => {
         <View>
         <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('LoginScreen')} >
           <View style={{alignItems:'center'}}>
-          <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={60} color="#4CAF50" /></Text>
+          <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={40} color="#4CAF50" /></Text>
           <Text>Log Out</Text>
           </View>
         </TouchableOpacity>
@@ -37,11 +37,17 @@ const Home = () => {
         <View>
         <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('Delivery',{uid: uid, uEmail:uEmail})} >
           <View style={{alignItems:'center'}}>
-          <Text style={styles.bButtonText}>  <AntDesign name="shoppingcart" size={60} color="#4CAF50" /></Text>
+          <Text style={styles.bButtonText}>  <AntDesign name="shoppingcart" size={40} color="#4CAF50" /></Text>
           <Text>Delivery Orders</Text>
           </View>
         </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('Profile',{uid: uid, uEmail:uEmail})} >
+        <View style={{alignItems:'center'}}>
+          <Text style={styles.bButtonText}>  <Ionicons name="person-circle-sharp" size={40} color="#4CAF50" /></Text>
+          <Text>Profile</Text>
+        </View>
+        </TouchableOpacity>
       </View>
             {data.map(restaurant => (
               <Pressable style={styles.restaurantContainer}

@@ -10,6 +10,7 @@ import Order from './screens/Order';
 import Basket from './screens/Basket';
 import Delivery from './screens/Delivery';
 import Payment from './screens/Payment';
+import Profile from './screens/Profile';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ const AppNavigation = () => {
       <Stack.Screen name="LoginScreen" component={LoginScreen}  options={{headerShown: false}}/>
       <Stack.Screen name="RegisterScreen" component={RegisterScreen}  options={{headerShown: false}}/>
       <Stack.Screen name="Home" component={Home}  options={{headerShown: false}} />
+      <Stack.Screen name="Profile" component={Profile}  options={{headerShown: false}} />
       <Stack.Screen name="ReadDish" component={ReadDish}  options={{headerShown: false}} />
       <Stack.Screen name="Order" component={Order}  />
       <Stack.Screen name="Basket" component={Basket}  />
