@@ -6,12 +6,11 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
   const route = useRoute();
   const navigation = useNavigation()
-  // const uid = route.params.uid;
-  // const uEmail = route.params.uEmail
   const {uid } = useRoute().params;
   const {uEmail } = useRoute().params;
   const [data, setData] = useState([]);
@@ -23,11 +22,16 @@ const Home = () => {
     };
     fetchData();
   }, []);
+
+  const logout = async() => {
+    navigation.navigate('LoginScreen')
+    await AsyncStorage.removeItem('authToken')
+  }
   return (
     <ScrollView>
      <View style={{flexDirection: 'row', justifyContent:'space-between', marginTop: 10, marginHorizontal: 10}}>
         <View>
-        <TouchableOpacity style={styles.bButton} onPress={() => navigation.navigate('LoginScreen')} >
+        <TouchableOpacity style={styles.bButton} onPress={logout} >
           <View style={{alignItems:'center'}}>
           <Text style={styles.bButtonText}><Ionicons name="arrow-back-circle" size={40} color="#4CAF50" /></Text>
           <Text>Log Out</Text>

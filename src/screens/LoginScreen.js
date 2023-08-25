@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword, onAuthStateChanged,sendPasswordResetEmail  } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { shadow } from 'react-native-paper';
 import { Octicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setPasswordVisible] = React.useState(false);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const userJ = await AsyncStorage.getItem('authToken');
+        const user= JSON.parse(userJ)
+        if (user) {
+          setTimeout(() => {
+            navigation.navigate('Home', { uid: user.uid , uEmail:user.email })
+          }, 400);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    checkLoginStatus();
+  }, []);
 
   const handleLogin = async () => {
     if (email === '' || password === '') {
@@ -19,7 +37,8 @@ const LoginScreen = () => {
     }
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const user = JSON.stringify(userCredential.user);
+      await AsyncStorage.setItem('authToken', user);
       navigation.navigate('Home', { uid: user.uid , uEmail:user.email }); // Pass the UID to the Home screen
       alert('Welcome');
       setEmail('');
