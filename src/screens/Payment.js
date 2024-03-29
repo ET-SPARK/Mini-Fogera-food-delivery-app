@@ -11,7 +11,7 @@ const Payment = () => {
   const {totalPrice } = useRoute().params;
   const {uEmail } = useRoute().params;
 
-  const myChapa = new Chapa('CHASECK_TEST-MM6Wli0UpCQugTEyXffE3nqL01HRzwyQ');
+  const myChapa = new Chapa('CHASECK_TEST-');
 
   const customerInfo = {
     amount: totalPrice,
